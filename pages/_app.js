@@ -4,6 +4,7 @@ import { useApollo } from "../lib/apolloClient";
 //import { useFetchUser } from '../lib/user'
 import Layout from '../components/layout'
 import { Auth0Provider } from 'use-auth0-hooks';
+import ApolloWrapper from '../lib/ApolloWrapper'
 
 function MyApp({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState);
@@ -17,11 +18,12 @@ function MyApp({ Component, pageProps }) {
       redirectUri="http://localhost:3000"
       //scope="read:current_user update:current_user_metadata"
     >
-      <ApolloProvider client={apolloClient}>
+        <ApolloWrapper>
         <Layout>
           <Component {...pageProps} /> 
         </Layout>     
-      </ApolloProvider>
+    
+      </ApolloWrapper>
     </Auth0Provider>
 
 

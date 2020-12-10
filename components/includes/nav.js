@@ -66,7 +66,7 @@ const Nav = () => {
         {isAuthenticated && (
           <>
         <Link className={styles.btn, styles.from_center} href="/profile">Espace Parents</Link>
-        <Button className={classes.root} onclick={logout}>Se déconnecter</Button>
+        <Button className={classes.root} onClick={logout}>Se déconnecter</Button>
         </>
         )}
         {!isAuthenticated && (

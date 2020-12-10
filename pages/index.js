@@ -27,19 +27,19 @@ export default function Home() {
 // }
 
 
-export async function getStaticProps() {
+// export async function getStaticProps() {
 
 
-  const apolloClient = initializeApollo();
+//   const apolloClient = initializeApollo();
 
-  await apolloClient.query({
-    query: POSTHERO_QUERY,
-  });
+//   await apolloClient.query({
+//     query: POSTHERO_QUERY,
+//   });
 
-  return {
-    props: {
-      initialApolloState: apolloClient.cache.extract(),
-    },
-    revalidate: 1,
-  };
-}
+//   return {
+//     props: {
+//       initialApolloState: apolloClient.cache.extract(),
+//     },
+//     revalidate: 1,
+//   };
+// }

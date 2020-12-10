@@ -4,12 +4,12 @@ import Footer from '../components/Footer/footer'
 
 
 
-function Layout({ user, children }) {
-    console.log("user from layout", user)
+function Layout({children}) {
+    //console.log("user from layout", user)
     return (
       <>
         
-        <Head>
+      <Head>
         <title>APE</title>
         <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
@@ -20,7 +20,7 @@ function Layout({ user, children }) {
       </Head>
       
   
-        <Nav user={user} />  
+        <Nav />  
         <main>
           <div className="container">{children}</div>
         </main>
