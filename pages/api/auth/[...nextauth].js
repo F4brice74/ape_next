@@ -28,29 +28,13 @@ const options = {
       }
       return Promise.resolve(token)
     },
-    // jwt: async (token, account) => {    
-    //     token.accessToken = account.accessToken    
-    //   return Promise.resolve(token)
-    // },
+   
     session: async (session, user  ) => {
       session.user.accessToken = user.accessToken;
       session.user.id = user.id;
-      // session.user.id = 'acounr';
-      // session.user.accessToken = 'accessToken';
       return Promise.resolve(session)
     },
   }
-  // async jwt(token, account) {
-  //   if (account) {
-  //     token.id = account.id
-  //     token.accessToken = account.accessToken
-  //   }
-  //    return token
-  // },
-  // async session(session, user) {
-  //   session.user = user
-  //   return session
-  // }
 };
 
 export default (req, res) => NextAuth(req, res, options)

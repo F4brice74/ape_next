@@ -1,6 +1,6 @@
-// import UserInfo from "../../frontend/src/components/parents/UserInfo/userInfo"
-// import Commission from "../../frontend/src/components/parents/Commission/commission"
-// import Document from "../../frontend/src/components/parents/Document/document"
+// import UserInfo from "../components/memberArea/UserInfo/userInfo"
+import Commission from "../components/memberArea/Commission/commission"
+// import Document from "../../frontend/src/components/memberArea/Document/document"
 
 import { gql, useQuery, NetworkStatus } from '@apollo/client'
 import { useSession } from "next-auth/client";
@@ -19,28 +19,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import styles from "./profile.module.scss"
 
 
-
-
-
-const POSTHERO_QUERY = gql`
-query postHero {
-  posts(sort: "createdAt:DESC", limit:1, where: {isPublished: "true"}) {
-   id
-   title
-   content	
-   excerpt
-   isPublished
-   slug
-   createdAt
-   image {
-    url
-  }
-   }
- }
-`
 const USERME_QUERY = gql`
-query {
-  user(id: "5f80273512b50c718213968b") {
+query ($id: ID!){ 
+  user(id: $id) {
     id
 	firstname
 	lastname
@@ -53,9 +34,9 @@ query {
 			name
 		}
   }
-}
-  
+}  
 `;
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -95,86 +76,90 @@ const ProfileComponent = () => {
   const [session] = useSession();
 
 
-     const classes = useStyles();
-     const [value, setValue] = useState(0);
-   //const userId = session.id
+  const classes = useStyles();
+  const [value, setValue] = useState(0);
+  const userId = session.user.id.replace('auth0|', '')
+  //console.log("userId from profileComponent", userId)
 
-  
-   const { loading, error, data } = useQuery(USERME_QUERY, {
-    variables: { id: '5f80273512b50c718213968b' },
+
+  const { loading, error, data } = useQuery(USERME_QUERY, {
+    variables: { id: userId },
   });
-      if (error) return `Error! ${error.message}`
-      if (loading) return <div>Loading</div>;
-  
- 
-   console.log("data from profile : ", data)
+  if (error) return `Error! ${error.message}`
+  if (loading) return <div>Loading</div>;
 
 
-  // //console.log("user from profile", strapiUsers)
+  console.log("data from profile : ", data)
+
+
+  const strapiUserRole = data.user.role.name; 
+  console.log(strapiUserRole)
+
+
   // const strapiUserRole = strapiUsers[0].role.name ? strapiUsers[0].role.name : "Public"
-  const strapiUserRole = 'Parent'; 
+  
   const handleChange = (event, newValue) => {
-       setValue(newValue);
-     };
-  
-  
-   if (strapiUserRole === "Parent") {
+    setValue(newValue);
+  };
+
+
+  if (session && strapiUserRole === "Parent") {
     return (
-      <Grid 
-       container
-       direction="column"
-       justify="space-evenly"
-       alignItems="center"
-       align="left">
-  
-            <h2>Bienvenue sur l'espace membres</h2> 
-            <AppBar position="static" className={classes.root}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              indicatorColor="primary"
-              textColor="primary"
-              aria-label="full width tabs example"
-             
-              variant="scrollable"
-              scrollButtons="auto"
-            >            
-              <Tab label='Messages du bureau' />
-              <Tab label='Commissions' />
-              <Tab label='Documents' />
-              <Tab label='Mes informations' />
-            </Tabs>
-            </AppBar>
-            <TabPanel value={value} index={3} className={styles.tabPanel}>            
-                {/* <UserInfo strapiUsers ={strapiUsers} commissions={commissions} /> */}
-            </TabPanel>
-            <TabPanel value={value} index={0} className={styles.tabPanel}>
-              {/* <PrivatePostsContainer className={styles.privateContainer} /> */}
-            </TabPanel>
-            <TabPanel value={value} index={1} className={styles.tabPanel}>
-              {/* <Commission commissions={commissions} /> */}
-            </TabPanel>
-            <TabPanel value={value} index={2} className={styles.tabPanel}>
-             {/* <Document documents={documents} /> */}
-            </TabPanel>
-           
-           
-          </Grid>
+      <Grid
+        container
+        direction="column"
+        justify="space-evenly"
+        alignItems="center"
+        align="left">
+
+        <h2>Bienvenue sur l'espace membres</h2>
+        <AppBar position="static" className={classes.root}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            aria-label="full width tabs example"
+
+            variant="scrollable"
+            scrollButtons="auto"
+          >
+            <Tab label='Messages du bureau' />
+            <Tab label='Commissions' />
+            <Tab label='Documents' />
+            <Tab label='Mes informations' />
+          </Tabs>
+        </AppBar>
+        <TabPanel value={value} index={3} className={styles.tabPanel}>
+          {/* <UserInfo strapiUsers ={strapiUsers} commissions={commissions} /> */}
+        </TabPanel>
+        <TabPanel value={value} index={0} className={styles.tabPanel}>
+          {/* <PrivatePostsContainer className={styles.privateContainer} />  */}
+        </TabPanel>
+        <TabPanel value={value} index={1} className={styles.tabPanel}>
+          <Commission userid={userId}/>
+        </TabPanel>
+        <TabPanel value={value} index={2} className={styles.tabPanel}>
+          {/* <Document documents={documents} /> */}
+        </TabPanel>
+
+
+      </Grid>
     )
   }
-  else 
-    return ( 
+  else
+    return (
       <div>
         <h5>Bienvenue sur l'espace Parent</h5>
         <p>vous êtes bien connectés mais votre profil de "parent" n'a pas encore été vérifié par notre administrateur.</p>
         <p>Merci de revenir plus tard</p>
       </div>
-        
-  
+
+
     )
-  }
-  
-     
-  export default ProfileComponent
+}
+
+
+export default ProfileComponent
 
 

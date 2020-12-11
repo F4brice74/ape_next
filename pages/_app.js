@@ -9,10 +9,10 @@ function App({ Component, pageProps }) {
   return (
 
     <NextAuthProvider session={session}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>     
-      </NextAuthProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </NextAuthProvider>
 
 
   )

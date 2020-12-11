@@ -18,19 +18,14 @@ import {
 import styles from './nav.module.scss';
 import { SingleFieldSubscriptionsRule } from 'graphql';
 
-
-
-
 const useStyles = makeStyles({
-  root: {
-    '& .MuiButtonBase-root': {
+  root: {    
     position: "absolute",
     right: 0,
     textTransform: "lowercase",
     fontFamily: "Nunito",
     fontWeight: "bolder",
     fontSize: "16px"
-    } 
   }
 });
 
