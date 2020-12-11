@@ -1,33 +1,21 @@
 import '../styles/globals.scss';
-import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "../lib/apolloClient";
-//import { useFetchUser } from '../lib/user'
+import { Provider as NextAuthProvider } from "next-auth/client";
 import Layout from '../components/layout'
-import { Auth0Provider } from 'use-auth0-hooks';
-import ApolloWrapper from '../lib/ApolloWrapper'
 
-function MyApp({ Component, pageProps }) {
-  const apolloClient = useApollo(pageProps.initialApolloState);
 
+function App({ Component, pageProps }) {
+  const { session } = pageProps;
 
   return (
-    <Auth0Provider
-      domain='apedesvillardssurthones.eu.auth0.com'
-      clientId='dyY7StjnwxljXo1euywEo2X3gmV29PbM'
-      //audience={process.env.AUTH0_AUDIENCE}
-      redirectUri="http://localhost:3000"
-      //scope="read:current_user update:current_user_metadata"
-    >
-        <ApolloWrapper>
-        <Layout>
-          <Component {...pageProps} /> 
-        </Layout>     
-    
-      </ApolloWrapper>
-    </Auth0Provider>
+
+    <NextAuthProvider session={session}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>     
+      </NextAuthProvider>
 
 
   )
 }
 
-export default MyApp
+export default App

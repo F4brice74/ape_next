@@ -1,45 +1,32 @@
 import Header from '../components/Header/header'
 import Presentation from '../components/Presentation/presentation'
 import PostHero, { POSTHERO_QUERY } from '../components/PostHero/postHero'
-import { initializeApollo } from "../lib/apolloClient"
-
-
 import Head from 'next/head'
+import { getSession } from "next-auth/client";
+import WithGraphQL from "../lib/with-graphql";
 
+export default function Home({session}) {
 
-
-
-export default function Home() {
-
-  return (     
-      <main>
-        <Header />
-        <Presentation />
+  return (
+    <>
+      <Head>
+        <title>Index Page</title>
+      </Head>
+      <Header />
+      <Presentation />
+      <WithGraphQL>
         <PostHero />
-      </main>
+      </WithGraphQL>
+    </>
   )
 }
-// export async function getServerSideProps(context) {
-//   const session = await auth0.getSession(context.req);
-//   return {
-//     props: { user: session?.user || null, }, // will be passed to the page component as props
-//   }
-// }
+export const getServerSideProps = async ({ req }) => {
+  const session = await getSession({ req });
 
+  return {
+    props: {
+      session,
+    },
+  };
+};
 
-// export async function getStaticProps() {
-
-
-//   const apolloClient = initializeApollo();
-
-//   await apolloClient.query({
-//     query: POSTHERO_QUERY,
-//   });
-
-//   return {
-//     props: {
-//       initialApolloState: apolloClient.cache.extract(),
-//     },
-//     revalidate: 1,
-//   };
-// }

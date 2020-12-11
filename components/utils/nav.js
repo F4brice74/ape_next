@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import  {makeStyles} from "@material-ui/core/styles";
 import Link from 'next/link'
-import { useAuth } from 'use-auth0-hooks';
+import { signIn, signOut, useSession } from "next-auth/client";
+
 
 // Import Material ui
 import {
@@ -15,32 +16,29 @@ import {
 
 // import local
 import styles from './nav.module.scss';
+import { SingleFieldSubscriptionsRule } from 'graphql';
 
 
 
 
 const useStyles = makeStyles({
   root: {
+    '& .MuiButtonBase-root': {
     position: "absolute",
     right: 0,
     textTransform: "lowercase",
     fontFamily: "Nunito",
     fontWeight: "bolder",
-    fontSize: "16px" 
+    fontSize: "16px"
+    } 
   }
 });
 
 
 const Nav = () => {
-  const { 
-    isAuthenticated,
-    login,
-    isLoading,
-    logout,
-    user, 
-  } = useAuth()
+ 
 
-
+  const [session] = useSession();
   const classes = useStyles();
   const [drawerOpen, setdrawerOpen] = useState(false);
 
@@ -51,7 +49,7 @@ const Nav = () => {
     setdrawerOpen(!drawerOpen)
   };
 
-  console.log ("user from nav :", user)
+  
   return (
     <Grid item xs={12} container>
    
@@ -63,14 +61,14 @@ const Nav = () => {
         
         
         
-        {isAuthenticated && (
+        {session && (
           <>
-        <Link className={styles.btn, styles.from_center} href="/profile">Espace Parents</Link>
-        <Button className={classes.root} onClick={logout}>Se déconnecter</Button>
+        <Link className={styles.btn, styles.from_center} href="/apeMembres">Espace Parents</Link>
+        <Button className={classes.root} onClick={signOut} >Se déconnecter</Button>
         </>
         )}
-        {!isAuthenticated && (
-        <Button className={classes.root} onClick={login}>Accès parents</Button>
+        {!session && (
+        <Button className={classes.root} onClick={signIn} >Accès parents</Button>
         )}         
       </Toolbar>
       
@@ -87,14 +85,14 @@ const Nav = () => {
           <Drawer className={styles.mobileAppbar} open={drawerOpen} onClose={toggleDrawerButton}>
             <MenuItem onClick={toggleDrawerButton}><Link className={styles.list} href="/">Accueil</Link></MenuItem>
             <MenuItem onClick={toggleDrawerButton}><Link className={styles.list} href="/#evenements">Evénements</Link></MenuItem>
-            {isAuthenticated && (
+            {SingleFieldSubscriptionsRule && (
               <>
-                <MenuItem onClick={toggleDrawerButton}><Link className={styles.list} href="/profile">Espace Parents</Link></MenuItem>
+                <MenuItem onClick={toggleDrawerButton}><Link className={styles.list} href="/apeMembres">Espace Parents</Link></MenuItem>
                 <MenuItem onClick={toggleDrawerButton}><Link className={styles.list} href="/api/logout">Se déconnecter</Link></MenuItem>
                 
               </>
             )}
-            {!isAuthenticated && (
+            {!session && (
               <MenuItem onClick={toggleDrawerButton}><Link className={styles.list} href="/api/login">Se connecter</Link></MenuItem>
             )} 
           </Drawer>

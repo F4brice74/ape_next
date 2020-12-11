@@ -39,7 +39,7 @@ const PostHero = () => {
     
     const { loading, error, data } = useQuery(POSTHERO_QUERY);
     if (error)
-      return <div>Erreur dans le chargement des actualités</div>;
+    if (error) return `Error! ${error.message}`
     if (loading)
       return <div>Loading</div>;
 
