@@ -1,7 +1,8 @@
 // import UserInfo from "../components/memberArea/UserInfo/userInfo"
 import Commission from "../components/memberArea/Commission/commission"
-// import Document from "../../frontend/src/components/memberArea/Document/document"
-
+import Document from "../components/memberArea/Document/document"
+import UserInfo from "../components/memberArea/UserInfo/userInfo"
+import PrivatePosts from "../components/memberArea/PrivatePosts/privatePosts"
 import { gql, useQuery, NetworkStatus } from '@apollo/client'
 import { useSession } from "next-auth/client";
 import React, { FormEvent, useEffect, useState } from "react";
@@ -25,7 +26,8 @@ query ($id: ID!){
     id
 	firstname
 	lastname
-	username
+  username
+  phoneNumber
     email
      role {
       name
@@ -68,40 +70,35 @@ const useStyles = makeStyles({
     '& .MuiTab-textColorPrimary': {
       color: "#ffffff",
     },
-  },
-});
+    '& .MuiTabs-flexContainer' : {
+      justifyContent: 'center',
+  }
+}});
 
 const ProfileComponent = () => {
 
   const [session] = useSession();
-
-
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const userId = session.user.id.replace('auth0|', '')
   //console.log("userId from profileComponent", userId)
-
-
   const { loading, error, data } = useQuery(USERME_QUERY, {
     variables: { id: userId },
   });
   if (error) return `Error! ${error.message}`
-  if (loading) return <div>Loading</div>;
+  if (loading) return <span className="loader"></span>;
 
 
-  console.log("data from profile : ", data)
+  //console.log("data from profile : ", data)
 
-
-  const strapiUserRole = data.user.role.name; 
-  console.log(strapiUserRole)
-
-
+  const strapiUser = data.user ? data.user : '';
+  const strapiUserRole = data.user.role.name ? data.user.role.name : ''; 
+  //console.log(strapiUserRole)
   // const strapiUserRole = strapiUsers[0].role.name ? strapiUsers[0].role.name : "Public"
   
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
 
   if (session && strapiUserRole === "Parent") {
     return (
@@ -120,7 +117,6 @@ const ProfileComponent = () => {
             indicatorColor="primary"
             textColor="primary"
             aria-label="full width tabs example"
-
             variant="scrollable"
             scrollButtons="auto"
           >
@@ -131,16 +127,16 @@ const ProfileComponent = () => {
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={3} className={styles.tabPanel}>
-          {/* <UserInfo strapiUsers ={strapiUsers} commissions={commissions} /> */}
+          <UserInfo strapiUser ={strapiUser} strapiUserRole={strapiUserRole} userId={userId}  />
         </TabPanel>
         <TabPanel value={value} index={0} className={styles.tabPanel}>
-          {/* <PrivatePostsContainer className={styles.privateContainer} />  */}
+          <PrivatePosts className={styles.privateContainer} />
         </TabPanel>
         <TabPanel value={value} index={1} className={styles.tabPanel}>
-          <Commission userid={userId}/>
+          <Commission userid={userId} strapiUserRole={strapiUserRole}/>
         </TabPanel>
         <TabPanel value={value} index={2} className={styles.tabPanel}>
-          {/* <Document documents={documents} /> */}
+          <Document userid={userId} strapiUserRole={strapiUserRole} />
         </TabPanel>
 
 
@@ -154,7 +150,6 @@ const ProfileComponent = () => {
         <p>vous êtes bien connectés mais votre profil de "parent" n'a pas encore été vérifié par notre administrateur.</p>
         <p>Merci de revenir plus tard</p>
       </div>
-
 
     )
 }

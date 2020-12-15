@@ -1,20 +1,21 @@
 import React from 'react';
 
-import './error.scss';
+import styles from './error.module.scss';
 import Grid from '@material-ui/core/Grid';
 
 
-const ErrorPage = () => {
+const ErrorPage = ({ErrorMessage}) => {
   return (
     <Grid
       container
       direction="column"
-      className="errorTitle"
+      className={styles.errorTitle}
       justify="center"
       alignItems="center"
     >
-      <h3>Désolé, mais la page demandée n'existe pas.</h3>
-      <p>nous vous invitons à revenir à la page d'accueil</p>
+      <h3>Désolé, mais nous avons rencontré une erreur</h3>
+      <p>{ErrorMessage}</p>
+      <h3>nous vous invitons à revenir à la page d'accueil</h3>
     </Grid>
   );
 };

@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
 import Moment from 'react-moment';
-
+import { useSession } from "next-auth/client";
+import { gql, useQuery, NetworkStatus } from '@apollo/client'
+import ErrorPage from "../../utils/errorpage"
 // import material ui
 import {
      Grid,
@@ -10,15 +12,32 @@ import {
 
 
 // import local
-import "./privatePosts.scss"
+import styles from "./privatePosts.module.scss"
+
+const PRIVATEPOSTS_QUERY = gql`
+    query privatePosts {
+            privatePosts {
+             id
+             title
+             content
+             createdAt	
+                
+             }
+           }
+`;
+
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL
 
 
-const PrivatePosts = ({ privatePosts }) => {
+const PrivatePosts = () => {
     
     //console.log("privatePosts", privatePosts)
-
+    const { loading, error, data } = useQuery(PRIVATEPOSTS_QUERY);
+    if (error) return <ErrorPage ErrorMessage={error.message} />;
+    if (loading) return <span className="loader"></span>;
+    const privatePosts = data.privatePosts
+ 
     return (
         <Grid
             container
@@ -28,10 +47,10 @@ const PrivatePosts = ({ privatePosts }) => {
         >
  {privatePosts.map(privatePost => (
 
-     <Grid item container alignItems="center" xs={10} md={8} align="left" key={privatePost.id} className="privatepost-block">
+     <Grid item container alignItems="center" xs={10} md={8} align="left" key={privatePost.id} className={styles.privatepost_block}>
                 <Grid item align="left" xs={12}>
-                    <div className="privatepost-title">{privatePost.title}</div>
-                    <div className="privatepost-content"><Moment format="DD/MM/YYYY">{privatePost.createdAt}</Moment></div>
+                    <div className={styles.privatepost_title}>{privatePost.title}</div>
+                    <div className={styles.privatepost_content}><Moment format="DD/MM/YYYY">{privatePost.createdAt}</Moment></div>
                 </Grid>
                 <Grid item xs={12}>
                     <div>{ReactHtmlParser(privatePost.content)}</div>
@@ -44,7 +63,3 @@ const PrivatePosts = ({ privatePosts }) => {
 }
 
 export default PrivatePosts;
-
-PrivatePosts.propTypes = {
-    title: PropTypes.string
-}

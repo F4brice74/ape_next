@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
 import { gql, useQuery, NetworkStatus } from '@apollo/client'
-
+import { useSession } from "next-auth/client";
+import ErrorPage from "../../utils/errorpage"
 // import material ui
 import {
     Grid,
@@ -15,7 +16,7 @@ import {
     makeStyles
 } from '@material-ui/core'
 
-const COMMISSION_QUERY = gql`
+export const COMMISSION_QUERY = gql`
 query commission {
     commissions {
               id
@@ -26,6 +27,9 @@ query commission {
                   lastname
                   firstname
                   email
+                  role {
+                      name
+                  }
               }
           }
    }   
@@ -68,17 +72,18 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const Commission = () => {
+const Commission = ({strapiUserRole}) => {
+    const [session] = useSession();
     const classes = useStyles();
     const { loading, error, data } = useQuery(COMMISSION_QUERY);
-      if (error) return `Error! ${error.message}`
-      if (loading) return <div>Loading</div>;
+    if (error) return <ErrorPage ErrorMessage={error.message} />;
+    if (loading) return <span className="loader"></span>;
     
     
     const commissions = data.commissions
-    console.log (commissions)
+    //console.log (commissions)
     
-    
+    if (session && strapiUserRole === "Parent") {  
     return (
         <Grid
             container
@@ -124,6 +129,15 @@ Nous souhaitons que tous les parents qui le souhaitent nous rejoignent au sein d
             </Grid>
         </Grid>
     );
+}
+return (
+    <div>
+        <h5>Bienvenue sur l'espace Parent</h5>
+        <p>vous êtes bien connectés mais votre profil de "parent" n'a pas encore été vérifié par notre administrateur.</p>
+        <p>Merci de revenir plus tard</p>
+    </div>
+
+)
 }
 
 export default Commission;

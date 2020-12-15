@@ -1,5 +1,6 @@
 import Header from '../components/Header/header'
 import Presentation from '../components/Presentation/presentation'
+import Events from '../components/Events/events'
 import PostHero, { POSTHERO_QUERY } from '../components/PostHero/postHero'
 import Head from 'next/head'
 import { getSession } from "next-auth/client";
@@ -16,6 +17,7 @@ export default function Home({session}) {
       <Presentation />
       <WithGraphQL>
         <PostHero />
+        <Events />
       </WithGraphQL>
     </>
   )

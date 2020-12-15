@@ -1,15 +1,15 @@
-@import 'src/index.scss';
+@import 'styles/color.scss';
 
-.privatepost-title {
+.privatepost_title {
     color:$color3;
     font-size: 2em;
 }
 
-.privatepost-content {
+.privatepost_content {
    text-align: left;
 }
 
-.privatepost-block {
+.privatepost_block {
     border-bottom: 1px solid black;
     margin-top: 3em;
     margin-bottom: 3em;

@@ -22,7 +22,7 @@ function Layout({children}) {
   
         <Nav />  
         <main>
-          <div className="container">{children}</div>
+          <div className="layout">{children}</div>
         </main>
         <Footer />
       </>

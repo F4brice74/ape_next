@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import  {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Link from 'next/link'
 import { signIn, signOut, useSession } from "next-auth/client";
 
@@ -19,19 +19,37 @@ import styles from './nav.module.scss';
 import { SingleFieldSubscriptionsRule } from 'graphql';
 
 const useStyles = makeStyles({
-  root: {    
+  button: {
     position: "absolute",
     right: 0,
-    textTransform: "lowercase",
+    color: '#333333',
+    backgroundColor: "white",
+    textTransform: 'lowercase',
     fontFamily: "Nunito",
-    fontWeight: "bolder",
-    fontSize: "16px"
-  }
+    fontSize: "0,6em",
+    fontWeight: 'bolder',
+    '&:hover': {
+      color: '#60A3FA',
+      backgroundColor: "white",
+      transform: 'rotate(-5deg)',
+      fontSize: '0,8em'
+    },
+  },
+  buttonMobile: {
+    textDecoration: 'none',
+    fontSize: '1em',
+    fontFamily: "'Nunito', sans-serif",
+    color: "#333333",
+    lineHeight: "2.2",
+    position: "relative",
+    cursor: "pointer",
+    textTransform: 'lowercase',
+    paddingLeft:'0',
+  },
+
 });
 
-
 const Nav = () => {
- 
 
   const [session] = useSession();
   const classes = useStyles();
@@ -44,29 +62,31 @@ const Nav = () => {
     setdrawerOpen(!drawerOpen)
   };
 
-  
   return (
     <Grid item xs={12} container>
-   
       <Toolbar
         className={styles.desktopAppbar} position="fixed">
         <img src='images/logoAPE.png' alt="logo" className={styles.navLogo} />
-        <Link className={styles.btn, styles.from_center} href="/">Accueil</Link>
-        <Link className={styles.btn, styles.from_center} href="/#evenements">Evénements</Link> 
-        
-        
-        
+
+        <Link href="/">
+          <a className={styles.btn}>Accueil</a>
+        </Link>
+        <Link href="/#evenements">
+          <a className={styles.btn}>Evénements</a>
+        </Link>
         {session && (
           <>
-        <Link className={styles.btn, styles.from_center} href="/apeMembres">Espace Parents</Link>
-        <Button className={classes.root} onClick={signOut} >Se déconnecter</Button>
-        </>
+            <Link href="/apeMembres">
+              <a className={styles.btn}>Espace Parents</a>
+            </Link>
+            <Button className={classes.button} onClick={signOut}>déconnexion</Button>
+          </>
         )}
         {!session && (
-        <Button className={classes.root} onClick={signIn} >Accès parents</Button>
-        )}         
+          <Button className={classes.button} onClick={signIn}>Se connecter</Button>
+        )}
       </Toolbar>
-      
+
 
       <AppBar
         className={styles.mobileAppbar}
@@ -74,30 +94,25 @@ const Nav = () => {
         color="inherit"
       >
         <div >
-          <Button onClick={toggleDrawerButton} >
+          <Button className={classes.button} onClick={toggleDrawerButton} >
             Menu
         </Button>
           <Drawer className={styles.mobileAppbar} open={drawerOpen} onClose={toggleDrawerButton}>
             <MenuItem onClick={toggleDrawerButton}><Link className={styles.list} href="/">Accueil</Link></MenuItem>
             <MenuItem onClick={toggleDrawerButton}><Link className={styles.list} href="/#evenements">Evénements</Link></MenuItem>
-            {SingleFieldSubscriptionsRule && (
+            {session && (
               <>
-                <MenuItem onClick={toggleDrawerButton}><Link className={styles.list} href="/apeMembres">Espace Parents</Link></MenuItem>
-                <MenuItem onClick={toggleDrawerButton}><Link className={styles.list} href="/api/logout">Se déconnecter</Link></MenuItem>
-                
+                <MenuItem onClick={toggleDrawerButton}><Link className={styles.list} href="/apeMembres">Membres</Link></MenuItem>
+                <MenuItem onClick={toggleDrawerButton}><Button className={classes.buttonMobile} onClick={signOut}>déconnexion</Button></MenuItem>
               </>
             )}
             {!session && (
-              <MenuItem onClick={toggleDrawerButton}><Link className={styles.list} href="/api/login">Se connecter</Link></MenuItem>
-            )} 
+              <MenuItem onClick={toggleDrawerButton}> <Button className={styles.list} onClick={signIn}>Se connecter</Button></MenuItem>
+            )}
           </Drawer>
         </div>
       </AppBar>
-
     </Grid>
-
-
-
   );
 };
 export default Nav;

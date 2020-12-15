@@ -41,7 +41,7 @@ const PostHero = () => {
     if (error)
     if (error) return `Error! ${error.message}`
     if (loading)
-      return <div>Loading</div>;
+      return <span className="loader"></span>;
 
   const { posts: postHero} = data;
 
