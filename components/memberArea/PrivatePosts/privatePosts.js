@@ -37,6 +37,8 @@ const PrivatePosts = () => {
     if (error) return <ErrorPage ErrorMessage={error.message} />;
     if (loading) return <span className="loader"></span>;
     const privatePosts = data.privatePosts
+    //console.log(privatePosts)
+    const sortprivatePosts = privatePosts.slice().sort((a,b)=> (a.createdAt < b.createdAt)?1:-1)
  
     return (
         <Grid
@@ -45,7 +47,8 @@ const PrivatePosts = () => {
             justify="center"
             className="container"
         >
- {privatePosts.map(privatePost => (
+ 
+ {sortprivatePosts.map(privatePost => (
 
      <Grid item container alignItems="center" xs={10} md={8} align="left" key={privatePost.id} className={styles.privatepost_block}>
                 <Grid item align="left" xs={12}>
@@ -53,7 +56,7 @@ const PrivatePosts = () => {
                     <div className={styles.privatepost_content}><Moment format="DD/MM/YYYY">{privatePost.createdAt}</Moment></div>
                 </Grid>
                 <Grid item xs={12}>
-                    <div>{ReactHtmlParser(privatePost.content)}</div>
+                    <div className={styles.privatepost_paragraph}>{ReactHtmlParser(privatePost.content)}</div>
                 </Grid>
             </Grid>
        

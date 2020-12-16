@@ -3,10 +3,20 @@
 .privatepost_title {
     color:$color3;
     font-size: 2em;
+    font-family: 'nunito', sans-serif;
+    font-weight: bold;
+    
 }
 
 .privatepost_content {
    text-align: left;
+   font-family: 'nunito', sans-serif;
+   font-size: 0.8em;
+   background-color: $color3;
+   color: white;
+   display: inline-block;
+   padding: 2px;
+   border-radius: 5px;
 }
 
 .privatepost_block {
@@ -14,4 +24,9 @@
     margin-top: 3em;
     margin-bottom: 3em;
     padding-top: 2em;
+}
+
+.privatepost_paragraph {
+    margin-top: 30px;
+    margin-bottom: 15px;
 }

@@ -109,7 +109,7 @@ const ProfileComponent = () => {
         alignItems="center"
         align="left">
 
-        <h2>Bienvenue sur l'espace membres</h2>
+        <h2 className={styles.profile_title}>Bienvenue sur l'espace membres</h2>
         <AppBar position="static" className={classes.root}>
           <Tabs
             value={value}

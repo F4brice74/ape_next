@@ -9,6 +9,10 @@ import {
     Grid,
 } from '@material-ui/core'
 
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+
+
 const DOCUMENT_QUERY = gql`
 query documents {
     documents {
@@ -43,14 +47,19 @@ const Document = ({ strapiUserRole }) => {
                 className="container"
             >
                 <Grid item container alignItems="center" xs={10} md={8} align="left">
-                    <h5>Les documents de l'APE</h5>
+                    <p>L'ensemble des documents officiels de notre association : convocation Assemblée Générale, rapport d'AG, bulletin d'adhésion, formulaire de vente ... seront disponibles en téléchargement pour faciliter nos échanges.</p>
                     <Grid item align="left" xs={12}>
 
                         {documents.map(document => (
-                            <div className={styles.document_div}><a target="blank" href={document.file.url}><PictureAsPdfIcon fontSize="large" color="primary" className="icon" /></a><p> {document.title}</p>
-                            </div>
-                        ))}
+                           <div className={styles.document_table}>
+                                <TableRow key={document.title} >
+                                    <TableCell align="left"><a target="blank" href={document.file.url}><PictureAsPdfIcon fontSize="large" color="primary" className="icon" /></a></TableCell>
+                                    <TableCell align="left">{document.title}</TableCell>
+                                </TableRow>
+                                </div>
+                            ))}
                     </Grid>
+
                 </Grid>
             </Grid>
         );

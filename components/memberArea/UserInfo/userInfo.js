@@ -13,7 +13,8 @@ import * as Yup from 'yup';
 import { Grid, Button, Accordion, AccordionSummary, AccordionDetails, } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { AirlineSeatLegroomExtraOutlined, AirlineSeatLegroomExtraRounded } from "@material-ui/icons";
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
 
 const COMMISSION_QUERY = gql`
 query commission {
@@ -70,14 +71,14 @@ const SignupSchema = Yup.object().shape({
 
 
 const UserInfo = ({ strapiUserRole, strapiUser, userId }) => {
-const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   // console.log(strapiUser, commissions)
   const id = userId;
   const [updateUser] = useMutation(UPDATE_USER,);
   console.log(strapiUser);
-  
+
   if (isLoading)
-  return <span className="loader"></span>;
+    return <span className="loader"></span>;
   const [session] = useSession();
   const { loading, error, data } = useQuery(COMMISSION_QUERY);
   if (error) return <ErrorPage ErrorMessage={error.message} />;
@@ -96,22 +97,60 @@ const [isLoading, setIsLoading] = useState(false)
 
       >
         <Grid item container xs={10} md={8}>
-          <Grid item xs={10} md={12} className={styles.userInfo_infos}>
-            <p>Vos informations sont précieuses, n'hésitez pas à les compléter.</p>
-            <ul>
-              <li className="userInfos_li"><p><span className={styles.user_head}>Votre prénom : </span> {strapiUser.firstname ? strapiUser.firstname : <span className={styles.user_answer}
-              ><i>non renseigné</i></span>}</p></li>
+        <p>Vos informations sont précieuses, n'hésitez pas à les compléter.</p>
+          <Grid item xs={10} md={12}>
+          <div className={styles.userInfo_infos}>
+            
+            
+            <TableRow>
+              <TableCell align="right">
+                <p className={styles.user_head}>Votre prénom : </p>
+              </TableCell>
+              <TableCell align="left">
+                <p>{strapiUser.firstname ? strapiUser.firstname : <span className={styles.user_answer}
+                ><i>non renseigné</i></span>}</p>
+              </TableCell>
+            </TableRow>
 
-              <li><p><span className={styles.user_head}>Votre nom : </span>{strapiUser.lastname ? strapiUser.lastname : <span className={styles.user_answer}><i>non renseigné</i></span>}</p></li>
+            <TableRow>
+              <TableCell align="right">
+                <p className={styles.user_head}>Votre nom : </p>
+              </TableCell>
+              <TableCell align="left">
+                <p>{strapiUser.lastname ? strapiUser.lastname : <span className={styles.user_answer}><i>non renseigné</i></span>}</p>
+              </TableCell>
+            </TableRow>
 
-              <li><p><span className={styles.user_head}>Votre email : </span>{strapiUser.email}</p></li>
+            <TableRow>
+              <TableCell align="right">
+                <p className={styles.user_head}>Votre email : </p>
+              </TableCell>
+              <TableCell align="left">
+                <p>{strapiUser.email}</p>
+              </TableCell>
+            </TableRow>
 
-              <li><p><span className={styles.user_head}>Votre numéro de téléphone : </span>{strapiUser.phoneNumber ? strapiUser.phoneNumber : <span className={styles.user_answer}><i>non renseigné</i></span>}</p></li>
+            <TableRow>
+              <TableCell align="right">
+                <p className={styles.user_head}>Votre numéro de téléphone : </p>
+              </TableCell>
+              <TableCell align="left">
+                <p>{strapiUser.phoneNumber ? strapiUser.phoneNumber : <span className={styles.user_answer}><i>non renseigné</i></span>}</p>
+              </TableCell>
+            </TableRow>
 
-              <li><p><span className={styles.user_head}>Commission(s) : </span>{strapiUser.commissions.map(commission => (
+            <TableRow>
+              <TableCell align="right">
+                <p className={styles.user_head}>Commission(s) : </p>
+              </TableCell>
+              <TableCell align="left">
+                <p>{strapiUser.commissions.map(commission => (
                 <>{commission.name ? commission.name + ", " : <span className={styles.user_answer}><i>non renseigné</i></span>}</>
-              ))}</p></li>
-            </ul>
+              ))}</p>
+              </TableCell>
+            </TableRow>
+
+          </div>
           </Grid>
 
 
@@ -140,7 +179,7 @@ const [isLoading, setIsLoading] = useState(false)
                     //alert(JSON.stringify(values, null, 2));
                     updateUser({ variables: { id: id, firstname: values.firstname, lastname: values.lastname, phoneNumber: values.phoneNumber, commissions: values.commissions } });
                     resetForm({ values: '' });
-                  
+
                   }}
                 >
 

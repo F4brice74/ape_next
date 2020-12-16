@@ -6,9 +6,9 @@ const options = {
   // Configure one or more authentication providers
   providers: [
     Providers.Auth0({
-      clientId: 'EMvEjQCs1Tu2ybmjBogv868dwfJHishn',
-      clientSecret: 'SPI9ckg0Tv0FAmvajwWx3TIV3PaLwbgCUehGhcjIIhkT0ocTDRWgHTUxdCOyRsIP',
-      domain: 'apedesvillardssurthones.eu.auth0.com'
+      clientId: process.env.AUTH0_CLIENT_ID,
+      clientSecret: process.env.AUTH0_CLIENT_SECRET,
+      domain: process.env.AUTH0_DOMAIN,
     })
     // ...add more providers here
   ],

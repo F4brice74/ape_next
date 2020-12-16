@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
     root: {
         margin: "50px",
         borderRadius: 12,
-        minWidth: 300,
+        minWidth: 250,
         boxShadow: "0px 10px 10px 0px rgba(0,0,0,0.4)",
         '& .MuiCardContent-root': {
             padding: "2px",
