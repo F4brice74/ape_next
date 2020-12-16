@@ -11,7 +11,8 @@ export default function Home({session}) {
   return (
     <>
       <Head>
-        <title>Index Page</title>
+        <title>APE des Villards/Thones</title>
+        <meta property="og:title" content="My page title" key="title" />
       </Head>
       <Header />
       <Presentation />

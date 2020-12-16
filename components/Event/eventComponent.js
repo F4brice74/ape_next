@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
 import ErrorPage from "../utils/errorpage"
 import { gql, useQuery, NetworkStatus } from '@apollo/client'
-
+import Head from 'next/head'
 
 
 // import material ui
@@ -50,6 +50,12 @@ const EventComponent = ({ slug }) => {
     
 
     return (
+        <div>
+        <Head>
+        <title>APE des Villards/Thones - {eventShow.title}</title>
+        <meta property="og:title" content="My page title" key="title" />
+      </Head>
+       
         <Grid
             container
             direction="row"
@@ -71,6 +77,7 @@ const EventComponent = ({ slug }) => {
                 </Grid>
             </Grid>
         </Grid>
+        </div>
 
     )
 };
