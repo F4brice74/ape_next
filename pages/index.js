@@ -8,7 +8,7 @@ import WithGraphQL from "../lib/with-graphql";
 
 export default function Home() {
   const [session] = useSession();
-  console.log (session)
+  //console.log (session)
   return (
     <>
       <Head>

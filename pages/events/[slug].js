@@ -2,8 +2,6 @@ import React from "react";
 import EventComponent from "../../components/Event/eventComponent"
 import WithGraphQL from "../../lib/with-graphql";
 
-
-
 const Event = ({ slug }) => {
     //console.log(slug)
     return (

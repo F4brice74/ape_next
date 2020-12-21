@@ -14,7 +14,7 @@ import { gql, useQuery, NetworkStatus } from '@apollo/client'
 const apeMembres = () => {
 
 const [session] = useSession();
-console.log("session form apemembre.js", session)
+//console.log("session form apemembre.js", session)
 
   if (!session) {
     return <Grid container direction="row" justify="center" alignItems="center">

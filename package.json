@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "postbuild": "next-on-netlify"
   },
   "dependencies": {
     "@apollo/client": "^3.3.4",
@@ -30,7 +31,5 @@
     "subscriptions-transport-ws": "^0.9.18",
     "yup": "^0.32.8"
   },
-  "devDependencies": {
-    "@netlify/plugin-nextjs": "^1.0.2"
-  }
+  "devDependencies": {}
 }
