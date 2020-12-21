@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import ProfileComponent from '../components/ProfileComponent'
-import { getSession, signIn } from "next-auth/client";
+import { getSession, useSession, signIn } from "next-auth/client";
 import WithGraphQL from "../lib/with-graphql";
 
 import {
@@ -11,7 +11,11 @@ import {
 
 import { gql, useQuery, NetworkStatus } from '@apollo/client'
 
-const apeMembres = ({ session, jwt }) => {
+const apeMembres = () => {
+
+const [session] = useSession();
+console.log("session form apemembre.js", session)
+
   if (!session) {
     return <Grid container direction="row" justify="center" alignItems="center">
       <Grid item align="center" xs={8}>
@@ -24,24 +28,37 @@ const apeMembres = ({ session, jwt }) => {
   }
   //console.log("session from profile", session)
   //console.log("jwt from profile", jwt)
+  else {
   return (
-    <WithGraphQL session={session}>
+   
+    <WithGraphQL session={session ? session : ''}>
       <Head>
         <title>espace membre</title>
       </Head>
       <ProfileComponent />
     </WithGraphQL>
   );
+  }
 };
 
-export const getServerSideProps = async ({ req }) => {
-  const session = await getSession({ req });
+// export async function getStaticProps() {
+//   const session = useSession();
 
-  return {
-    props: {
-      session,
-    },
-  };
-};
+//   return {
+//     props: {
+//       session,
+//     },
+//   };
+// };
+
+// export const getServerSideProps = async ({ req }) => {
+//   const session = await getSession({ req });
+
+//   return {
+//     props: {
+//       session,
+//     },
+//   };
+// };
 
 export default apeMembres;

@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from 'prop-types';
 import EventComponent from "../../components/Event/eventComponent"
 import WithGraphQL from "../../lib/with-graphql";
 
@@ -27,7 +26,3 @@ export async function getServerSideProps(context) {
 
 export default Event;
 
-Event.propTypes = {
-    title: PropTypes.string,
-    slug: PropTypes.string
-}
