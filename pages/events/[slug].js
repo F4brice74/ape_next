@@ -6,7 +6,7 @@ import WithGraphQL from "../../lib/with-graphql";
 
 
 const Event = ({ slug }) => {
-    console.log(slug)
+    //console.log(slug)
     return (
         <WithGraphQL>
             <EventComponent slug={slug} />
@@ -16,7 +16,7 @@ const Event = ({ slug }) => {
 
 export async function getServerSideProps(context) {
    const {slug} = context.query
-   console.log(slug)
+  // console.log(slug)
    
     return {
       props: {

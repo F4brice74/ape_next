@@ -75,7 +75,7 @@ const UserInfo = ({ strapiUserRole, strapiUser, userId }) => {
   // console.log(strapiUser, commissions)
   const id = userId;
   const [updateUser] = useMutation(UPDATE_USER,);
-  console.log(strapiUser);
+  //console.log(strapiUser);
 
   if (isLoading)
     return <span className="loader"></span>;

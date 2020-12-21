@@ -36,7 +36,7 @@ const Document = ({ strapiUserRole }) => {
     if (error) return <ErrorPage ErrorMessage={error.message} />;
     if (loading) return <span className="loader"></span>;
     const documents = data.documents
-    console.log(documents)
+    //console.log(documents)
 
     if (session && strapiUserRole === "Parent") {
         return (

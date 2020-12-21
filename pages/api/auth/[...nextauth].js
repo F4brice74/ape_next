@@ -2,7 +2,7 @@ import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 
 const options = {
-
+ 
   // Configure one or more authentication providers
   providers: [
     Providers.Auth0({

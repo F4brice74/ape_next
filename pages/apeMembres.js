@@ -22,8 +22,8 @@ const apeMembres = ({ session, jwt }) => {
       </Grid>
     </Grid>
   }
-  console.log("session from profile", session)
-  console.log("jwt from profile", jwt)
+  //console.log("session from profile", session)
+  //console.log("jwt from profile", jwt)
   return (
     <WithGraphQL session={session}>
       <Head>
