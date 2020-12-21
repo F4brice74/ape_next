@@ -20,6 +20,13 @@ const options = {
   // },
   debug: true,
 
+  session: {
+     
+  // Seconds - How long until an idle session expires and is no longer valid.
+    maxAge: 2 * 24 * 60 * 60, // 2 days
+
+  },
+
   callbacks: {
     jwt: async (token, user, account, profile, isNewUser) => {
       if (account) {
