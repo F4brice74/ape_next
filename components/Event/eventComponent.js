@@ -45,7 +45,7 @@ const EventComponent = ({ slug }) => {
     if (error) return <ErrorPage ErrorMessage={error.message} />;
     console.log(error)
     if (loading)
-      return <span className="loader"></span>;
+      return <> <p>les données arrivent !</p><span className="loader"></span></>;
     const eventShow = data.events[0];
     
 
